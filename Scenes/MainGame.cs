@@ -29,7 +29,6 @@ public partial class MainGame : Node2D
 
 	private bool _eat = false;
 
-	private bool _crash = false;
 	Vector2 start_pos = new Vector2(9, 9);
 
 	public override void _Ready()
@@ -50,8 +49,9 @@ public partial class MainGame : Node2D
 			.GetNode<Label>("Score")
 			.Text = "SCORE: " + score.ToString();
 		_direction = Direction.UP;
-		generateSnake();
+		regen_food = true;
 		move_food();
+		generateSnake();
 	}
 
 	public void generateSnake()
@@ -64,7 +64,6 @@ public partial class MainGame : Node2D
 		for (int i = 0; i < 3; i++)
 		{
 			// take the start_pos and add Vector2(0, i) to it to make the snake body
-			GD.Print("Init" + start_pos + " vec " + new Vector2(0, i));
 			addSegment((start_pos + new Vector2(0, -i)) * cell_size);
 		}
 	}
@@ -152,10 +151,10 @@ public partial class MainGame : Node2D
 		if (body.Count > 0)
 		{
 			var newSegment = body[0].Position + transition;
-			addSegment(newSegment);
-
 			checkOutOfBounds();
+
 			checkSelfEaten();
+			addSegment(newSegment);
 			bool addBody = checkFoodEaten();
 
 			if (addBody)
@@ -171,11 +170,10 @@ public partial class MainGame : Node2D
 		if (
 			body[0].Position.X < 0
 			|| body[0].Position.X > (cells - 1) * cell_size
-			|| body[0].Position.Y < 0
-			|| body[0].Position.Y > (cells - 1) * cell_size
+			|| body[0].Position.Y < 1
+			|| body[0].Position.Y > cells * cell_size
 		)
 		{
-			_crash = true;
 			gameOver();
 		}
 	}
@@ -186,7 +184,6 @@ public partial class MainGame : Node2D
 		{
 			if (body[0].Position == body[i].Position)
 			{
-				_crash = true;
 				gameOver();
 			}
 		}
@@ -216,12 +213,8 @@ public partial class MainGame : Node2D
 
 	public bool checkFoodEaten()
 	{
-		GD.Print("Check food eaten");
-		GD.Print(body[0].Position);
-		GD.Print(food_pos);
 		if (body[0].Position == food_pos)
 		{
-			GD.Print("Food eaten");
 			regen_food = true;
 			score += 1;
 			GetTree()
@@ -238,7 +231,7 @@ public partial class MainGame : Node2D
 
 	public void gameOver()
 	{
-		GD.Print("Trigiger gamer over");
+		can_move = false;
 		GetTree().Root.GetNode<CanvasLayer>("MainGame/GameOverMenu").Show();
 		GetTree().Root.GetNode<Timer>("MainGame/MoveTimer").Stop();
 		game_start = false;

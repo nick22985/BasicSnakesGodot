@@ -26,6 +26,7 @@ offset = Vector2(25, 25)
 
 [node name="GameOverMenu" parent="." instance=ExtResource("6_5v8kc")]
 process_mode = 2
+visible = false
 
 [connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
 [connection signal="restart" from="GameOverMenu" to="." method="_on_game_over_menu_restart"]

@@ -12,7 +12,7 @@ shadow_offset = Vector2(10, 10)
 bg_color = Color(0, 0.721569, 0.266667, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c1xy6"]
-bg_color = Color(0, 0.694118, 0.643137, 1)
+bg_color = Color(0, 0.666667, 0.815686, 1)
 
 [node name="GameOverMenu" type="CanvasLayer"]
 script = ExtResource("1_dc131")
@@ -50,10 +50,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RestartButton" type="Button" parent="."]
-offset_left = 375.0
-offset_top = 545.0
-offset_right = 625.0
-offset_bottom = 608.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = 22.5
+offset_right = 125.0
+offset_bottom = 85.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_b6kff")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_50vge")
